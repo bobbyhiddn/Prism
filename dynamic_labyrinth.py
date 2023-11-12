@@ -20,18 +20,24 @@ def distance(square1, square2):
 
 # Function to draw connection
 def draw_connection(x1, y1, x2, y2):
-    if x1 == x2:  # North-South corridor
-        for i in range(min(y1, y2), max(y1, y2) - 1):  # Stop before entering the room
-            if grid[i][x1] == " " or grid[i][x1] == "=":
+    if abs(y2 - y1) > abs(x2 - x1):  # If rooms are more vertically aligned
+        for i in range(min(y1, y2) + 3, max(y1, y2) - 2):  # Stop before entering the room
+            if grid[i][x1] == " ":
                 grid[i][x1] = "="  # Corridor path
-            elif grid[i][x1] == "#":
-                grid[i][x1] = "D"  # Door
-    elif y1 == y2:  # East-West corridor
-        for j in range(min(x1, x2), max(x1, x2) - 1):  # Stop before entering the room
-            if grid[y1][j] == " " or grid[y1][j] == "=":
+        # Place doors at the boundary of the rooms
+        if grid[min(y1, y2) + 2][x1] == "#":
+            grid[min(y1, y2) + 2][x1] = "D"
+        if grid[max(y1, y2) - 2][x1] == "#":
+            grid[max(y1, y2) - 2][x1] = "D"
+    else:  # If rooms are more horizontally aligned
+        for j in range(min(x1, x2) + 3, max(x1, x2) - 2):  # Stop before entering the room
+            if grid[y1][j] == " ":
                 grid[y1][j] = "="  # Corridor path
-            elif grid[y1][j] == "#":
-                grid[y1][j] = "D"  # Door
+        # Place doors at the boundary of the rooms
+        if grid[y1][min(x1, x2) + 2] == "#":
+            grid[y1][min(x1, x2) + 2] = "D"
+        if grid[y1][max(x1, x2) - 2] == "#":
+            grid[y1][max(x1, x2) - 2] = "D"
 
 # Grid size
 grid_size = 30
